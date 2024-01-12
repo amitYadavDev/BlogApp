@@ -6,3 +6,5 @@ import dagger.hilt.android.HiltAndroidApp
 @HiltAndroidApp
 class BaseApplication: Application() {
 }
+
+//app_id - 65a186403034e05871355576
