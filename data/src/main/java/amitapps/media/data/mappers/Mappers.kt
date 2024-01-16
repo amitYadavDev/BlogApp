@@ -5,5 +5,4 @@ import amitapps.media.data.network.model.BlogsDTO
 import amitapps.media.domain.model.Blog
 
 fun List<BlogDTO>.toDomain():List<Blog> {
-
 }
