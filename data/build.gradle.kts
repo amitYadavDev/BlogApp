@@ -36,6 +36,7 @@ android {
 
 dependencies {
     implementation(project(mapOf("path" to ":domain")))
+    implementation(project(mapOf("path" to ":common")))
 
 
     implementation("androidx.core:core-ktx:1.9.0")
