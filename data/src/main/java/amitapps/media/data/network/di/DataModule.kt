@@ -1,6 +1,8 @@
 package amitapps.media.data.network.di
 
 import amitapps.media.data.network.ApiService
+import amitapps.media.data.repository.GetBlogsRepositoryImpl
+import amitapps.media.domain.repository.GetBlogsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,6 +30,11 @@ object DataModule {
     @Provides
     fun getApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
+    }
+
+    @Provides
+    fun provideGetBlogsRepository(apiService: ApiService) : GetBlogsRepository {
+        return GetBlogsRepositoryImpl(apiService = apiService)
     }
 
 }

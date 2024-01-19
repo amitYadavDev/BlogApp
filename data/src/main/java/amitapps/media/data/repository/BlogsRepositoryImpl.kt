@@ -6,7 +6,7 @@ import retrofit2.Response
 
 class BlogsRepositoryImpl : BlogsRepository {
     override suspend fun getBlogs(): Response<List<Blog>> {
-        TODO("Not yet implemented")
+
     }
 
 }
