@@ -1,11 +1,16 @@
 package amitapps.media.data.network.di
 
+import amitapps.media.common.Constants
 import amitapps.media.data.network.ApiService
 import amitapps.media.data.repository.GetBlogsRepositoryImpl
+import amitapps.media.data.room.BlogDao
+import amitapps.media.data.room.BlogDataBase
 import amitapps.media.domain.repository.GetBlogsRepository
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -21,7 +26,7 @@ object DataModule {
     @Provides
     fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("")
+            .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
@@ -35,6 +40,16 @@ object DataModule {
     @Provides
     fun provideGetBlogsRepository(apiService: ApiService) : GetBlogsRepository {
         return GetBlogsRepositoryImpl(apiService = apiService)
+    }
+
+    @Provides
+    fun provideDataBase(@ApplicationContext context: Context) : BlogDataBase {
+        return BlogDataBase.getInstance(context)
+    }
+
+    @Provides
+    fun provideDao(blogDataBase: BlogDataBase) : BlogDao {
+        return blogDataBase.getBlogDao()
     }
 
 }

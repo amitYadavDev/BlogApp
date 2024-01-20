@@ -1,6 +1,11 @@
 package amitapps.media.domain.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
 data class Blog(
+    @PrimaryKey(autoGenerate = false)
     val id: String,
     val image: String,
     val likes: Int,
