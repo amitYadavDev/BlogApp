@@ -1,5 +1,7 @@
 package amitapps.media.blogapp
 
+import amitapps.media.blogapp.navigation.NavigationItem
+import amitapps.media.blogapp.screens.home.HomeScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,6 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import amitapps.media.blogapp.ui.theme.BlogAppTheme
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +27,16 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Amit")
+                    val navController = rememberNavController()
+                    MyApp {
+                        NavHost(navController = navController,
+                            startDestination = NavigationItem.Home.route
+                        ) {
+                            composable(NavigationItem.Home.route) {
+                                HomeScreen()
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -30,17 +44,6 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    BlogAppTheme {
-        Greeting("Amit")
-    }
+fun MyApp(content: @Composable () -> Unit) {
+    content()
 }

@@ -54,6 +54,11 @@ android {
 
 dependencies {
 
+    implementation(project(mapOf("path" to ":domain")))
+    implementation(project(mapOf("path" to ":common")))
+    implementation(project(mapOf("path" to ":data")))
+
+
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.8.2")
@@ -83,6 +88,9 @@ dependencies {
 
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
+
+    //navigation
+    implementation("androidx.navigation:navigation-compose:2.7.6")
 
     implementation("androidx.paging:paging-runtime-ktx:3.2.1")
 

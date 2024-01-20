@@ -1,4 +1,9 @@
 package amitapps.media.blogapp.screens.home
 
-class Home {
+import androidx.compose.runtime.Composable
+
+
+@Composable
+fun HomeScreen() {
+
 }
