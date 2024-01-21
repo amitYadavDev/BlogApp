@@ -2,9 +2,11 @@ package amitapps.media.data.network.di
 
 import amitapps.media.common.Constants
 import amitapps.media.data.network.ApiService
+import amitapps.media.data.repository.GetBlogDetailsRepoImpl
 import amitapps.media.data.repository.GetBlogsRepositoryImpl
 import amitapps.media.data.room.BlogDao
 import amitapps.media.data.room.BlogDataBase
+import amitapps.media.domain.repository.GetBlogDetailsRepo
 import amitapps.media.domain.repository.GetBlogsRepository
 import android.content.Context
 import dagger.Module
@@ -50,6 +52,11 @@ object DataModule {
     @Provides
     fun provideDao(blogDataBase: BlogDataBase) : BlogDao {
         return blogDataBase.getBlogDao()
+    }
+
+    @Provides
+    fun provideGetBlogDetailsRepo(apiService: ApiService): GetBlogDetailsRepo {
+        return GetBlogDetailsRepoImpl(apiService)
     }
 
 }
