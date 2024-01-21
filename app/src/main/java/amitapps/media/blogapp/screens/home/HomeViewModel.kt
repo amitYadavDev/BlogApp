@@ -8,8 +8,11 @@ import amitapps.media.domain.use_cases.GetBlogsUseCase
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.flow.onEach
@@ -21,9 +24,11 @@ class HomeViewModel @Inject constructor(private val getBlogsUseCase: GetBlogsUse
     private val getPagerBlogsRepo: GetBlogsRepository,
     private val blogDao: BlogDao) : ViewModel() {
 
-    val page = Pager(config = PagingConfig(pageSize = 10, prefetchDistance = 5), remoteMediator = BlogRemoteMediator(
-        ge
-    ))
+    @OptIn(ExperimentalPagingApi::class)
+    val pager = Pager(config = PagingConfig(pageSize = 10, prefetchDistance = 5), remoteMediator = BlogRemoteMediator(
+        getPagerBlogsRepo = getPagerBlogsRepo, blogDao = blogDao)) {
+        blogDao.getAllBlogItems()
+    }.flow.cachedIn(viewModelScope)
 
     private val _blogs = mutableStateOf<HomeState>(HomeState())
     val blogs: State<HomeState> = _blogs

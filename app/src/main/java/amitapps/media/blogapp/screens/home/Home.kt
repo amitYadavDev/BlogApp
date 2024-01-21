@@ -29,6 +29,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.rememberAsyncImagePainter
 
 
@@ -49,12 +50,11 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltView
         }
     }
 
-    LazyColumn {
-        res.data?.let {
-            items(it) {
-                PostItem(it)
+    val list = viewModel.pager.collectAsLazyPagingItems()
 
-            }
+    LazyColumn {
+        items(list.itemCount) {
+            PostItem(it = list[it]!!)
         }
     }
 
@@ -65,7 +65,9 @@ fun PostItem(it: Blog) {
 
     Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
 
-        Row(modifier = Modifier.fillMaxSize().padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
+        Row(modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp), verticalAlignment = Alignment.CenterVertically) {
             CircularImage(50.0, 50.0, 25.0, it.owner.picture)
             
             Spacer(modifier = Modifier.width(8.dp))
