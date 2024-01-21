@@ -1,5 +1,6 @@
 package amitapps.media.data.paging
 
+import amitapps.media.common.Resource
 import amitapps.media.data.room.BlogDao
 import amitapps.media.data.room.BlogKey
 import amitapps.media.domain.model.Blog
@@ -19,13 +20,60 @@ class BlogRemoteMediator @Inject constructor(
     override suspend fun load(loadType: LoadType, state: PagingState<Int, Blog>): MediatorResult {
 
         return try {
-            val page: Int = while (loadType) {
-                LoadType.APPEND -> {}
-                LoadType.PREPEND -> {}
-                LoadType.REFRESH -> {}
+            val page: Int = when (loadType) {
+                LoadType.APPEND -> {
+                    val remoteKey = getLastKey(state)
+                    remoteKey?.next?:return MediatorResult.Success(true)
+                }
+                LoadType.PREPEND -> {
+                    return MediatorResult.Success(true)
+                }
+                LoadType.REFRESH -> {
+                    val remoteKeys = getClosestKey(state)
+                    remoteKeys?.next?.minus(1)?:initPage
+                }
             }
 
-            return MediatorResult.Success(true)
+            val response = getPagerBlogsRepo.getPagerBlogs(page=page, limit=state.config.pageSize)
+            val endOfPagination = response.data.size!! < state.config.pageSize
+
+            when(response) {
+                is Resource.Success->{
+                    val body = response.data
+
+                    if(loadType == LoadType.REFRESH) {
+                        blogDao.deleteAllBlogKeys()
+                        blogDao.deleteAllItems()
+                    }
+                    val prev = if(page == initPage) initPage else initPage - 1
+                    val next = if(endOfPagination) null else page + 1
+
+                    val list = body?.map {
+                        BlogKey(id = it.id, prev, next)
+                    }
+
+                    list?.let {
+                        blogDao.insertAllBlogKeys(list)
+                    }
+                    body?.let {blogDao.insertAllBlogs(body)  }
+
+
+
+
+
+                }
+                is Resource.Loading -> {}
+                is Resource.Error -> {}
+            }
+
+            if(response is Resource.Success) {
+                if(endOfPagination) MediatorResult.Success(true)
+                else MediatorResult.Success(false)
+            } else {
+                MediatorResult.Success(true)
+            }
+
+
         } catch (e: Exception) {
             MediatorResult.Error(e)
         }

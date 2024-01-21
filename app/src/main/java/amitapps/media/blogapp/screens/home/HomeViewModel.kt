@@ -1,10 +1,15 @@
 package amitapps.media.blogapp.screens.home
 
 import amitapps.media.common.Resource
+import amitapps.media.data.paging.BlogRemoteMediator
+import amitapps.media.data.room.BlogDao
+import amitapps.media.domain.repository.GetBlogsRepository
 import amitapps.media.domain.use_cases.GetBlogsUseCase
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.flow.onEach
@@ -12,7 +17,13 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(private val getBlogsUseCase: GetBlogsUseCase) : ViewModel() {
+class HomeViewModel @Inject constructor(private val getBlogsUseCase: GetBlogsUseCase,
+    private val getPagerBlogsRepo: GetBlogsRepository,
+    private val blogDao: BlogDao) : ViewModel() {
+
+    val page = Pager(config = PagingConfig(pageSize = 10, prefetchDistance = 5), remoteMediator = BlogRemoteMediator(
+        ge
+    ))
 
     private val _blogs = mutableStateOf<HomeState>(HomeState())
     val blogs: State<HomeState> = _blogs

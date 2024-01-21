@@ -11,7 +11,7 @@ class GetBlogsUseCase @Inject constructor(private val getBlogsRepository: GetBlo
     operator fun invoke() : Flow<Resource<List<Blog>>> = flow {
         emit(Resource.Loading(null))
         try {
-            val response = getBlogsRepository.getBlogs()
+            val response = getBlogsRepository.getPagerBlogs()
             emit(Resource.Success(data = response))
         } catch (e: Exception) {
             emit(Resource.Error("error happened"))

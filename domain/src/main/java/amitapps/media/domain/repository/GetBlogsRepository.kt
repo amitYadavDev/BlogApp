@@ -4,5 +4,5 @@ import amitapps.media.domain.model.Blog
 
 interface GetBlogsRepository {
 
-    suspend fun getBlogs() : List<Blog>
+    suspend fun getPagerBlogs() : List<Blog>
 }
