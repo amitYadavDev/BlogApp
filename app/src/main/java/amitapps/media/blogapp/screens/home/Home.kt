@@ -3,12 +3,14 @@ package amitapps.media.blogapp.screens.home
 import amitapps.media.domain.model.Blog
 import android.graphics.BlendModeColorFilter
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -54,16 +56,18 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltView
 
     LazyColumn {
         items(list.itemCount) {
-            PostItem(it = list[it]!!)
+            PostItem(it = list[it]!!) {
+                navController.navigate("details/${it}")
+            }
         }
     }
 
 }
 
 @Composable
-fun PostItem(it: Blog) {
+fun PostItem(it: Blog, l:(String)->Unit) {
 
-    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center) {
+    Column(modifier = Modifier.fillMaxWidth().clickable { l.invoke(it.id) }, verticalArrangement = Arrangement.Center) {
 
         Row(modifier = Modifier
             .fillMaxSize()

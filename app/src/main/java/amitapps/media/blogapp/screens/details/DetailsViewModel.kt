@@ -20,6 +20,9 @@ class DetailsViewModel @Inject constructor(
     private val details = mutableSetOf(BlogDetailsStateHolder())
 
     init {
+        savedStateHandle.getLiveData<String>("blogId").value?.let {
+            getBlogDetails(it)
+        }
 
     }
 
