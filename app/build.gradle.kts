@@ -98,6 +98,7 @@ dependencies {
     implementation("androidx.room:room-runtime:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
 
+    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
 
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
 
@@ -105,6 +106,6 @@ dependencies {
 
     implementation("com.google.dagger:hilt-android:2.50")
     kapt("com.google.dagger:hilt-compiler:2.50")
-    kapt("com.google.dagger:hilt-android-compiler:2.40")
+    kapt("com.google.dagger:hilt-android-compiler:2.45")
     implementation("io.coil-kt:coil-compose:2.5.0")
 }
