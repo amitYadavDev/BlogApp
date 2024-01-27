@@ -52,9 +52,9 @@ class BlogRemoteMediator @Inject constructor(
                         BlogKey(id = it.id, prev, next)
                     }
 
-                    list?.let {
-                        blogDao.insertAllBlogKeys(list)
-                    }
+                    if(list != null)
+                    blogDao.insertAllBlogKeys(list)
+
                     body?.let {blogDao.insertAllBlogs(body)  }
 
 
