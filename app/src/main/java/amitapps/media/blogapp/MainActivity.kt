@@ -1,6 +1,7 @@
 package amitapps.media.blogapp
 
 import amitapps.media.blogapp.navigation.NavigationItem
+import amitapps.media.blogapp.screens.details.DetailsScreen
 import amitapps.media.blogapp.screens.home.HomeScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -36,6 +37,9 @@ class MainActivity : ComponentActivity() {
                         ) {
                             composable(NavigationItem.Home.route) {
                                 HomeScreen(navController = navController)
+                            }
+                            composable(NavigationItem.DetailsScreen.route) {
+                                DetailsScreen()
                             }
                         }
                     }
